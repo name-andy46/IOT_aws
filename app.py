@@ -21,14 +21,14 @@ def handler(event, context):
             
             if device_action == 'list':
                 Items = list_devices()
-                print('👉 this is the print statement 👈')
+                print('👉 querying list success 👈')
                 return {
                     'statusCode': 200,
                     'body': json.dumps(Items, sort_keys=True, indent=4)
                 }
             else:
                 res = 'action not recognized'
-                print('👉 this is the print statement 👈')
+                print('👉 query string param not recognized 👈')
                 return {
                     'statusCode': 404,
                     'body': json.dumps(res)
@@ -43,7 +43,7 @@ def handler(event, context):
                 new_name = body['new_name']
                 Item = update_device_name(new_name, device_key)
 
-                print('👉 this is the print statement 👈')
+                print('👉 update name success block 👈')
                 return {
                     'statusCode': 200,
                     'body': json.dumps(Item, sort_keys=True, indent=4)
@@ -51,7 +51,7 @@ def handler(event, context):
 
             else:
                 res = 'action not recognized'
-                print('👉 this is the print statement 👈')
+                print('👉 update name not recognized 👈')
                 return {
                     'statusCode': 404,
                     'body': json.dumps(res)
@@ -60,7 +60,7 @@ def handler(event, context):
 
         else:
             res = 'httpMethod not recognized!'
-            print('👉 this is the print statement 👈')
+            print('👉 http method not recognized 👈')
         
             return {
                 'statusCode': 200,
@@ -68,15 +68,14 @@ def handler(event, context):
             }
     except Exception as e:
         print(e)
-        print('👉 this is the print statement 👈')
+        print('❌ complete failure ❌')
         res = 'there was an error in handling your request'
+
         return {
             'statusCode': 400,
             'body': json.dumps(res)
         }
-
-
-
+        
 
 
 
