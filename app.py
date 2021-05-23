@@ -72,6 +72,11 @@ def handler(event, context):
 
                 Item = add_device(device_name)
 
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(Item)
+                }
+
 
             else:
                 res = 'action not recognized'

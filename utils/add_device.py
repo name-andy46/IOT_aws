@@ -17,14 +17,14 @@ def add_device(device_name):
 
         attribute_name = 'log_id'
         key_type = 'HASH'
-        attribute_type = 'N'
+        attribute_type = 'S'
         rcu = 5
         wcu = 5
 
         dynamodb = boto3.resource('dynamodb')
 
         uid = uuid.uuid4()
-        uid = uuni_id.hex
+        uid = uid.hex
         table_name = 'device_' + uid
 
 
