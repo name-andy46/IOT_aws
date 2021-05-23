@@ -16,8 +16,8 @@ def list_devices():
         table = dynamodb.Table('device_list')
         
         response = table.scan(
-            # AttributesToGet=['device_key', 'created_at', 'device_name',]
-            AttributesToGet=['device_key']
+            AttributesToGet=['device_key', 'created_at', 'device_name',]
+            # AttributesToGet=['device_key', 'device_name']
         )
 
         
@@ -27,8 +27,9 @@ def list_devices():
             temp_dict = {}
 
             temp_dict['device_key'] = i['device_key']
-            # temp_dict['device_name'] = i['device_name']
+            temp_dict['device_name'] = i['device_name']
             # temp_dict['created_at'] = DecimalEncoder().encode(i['created_at'])
+            temp_dict['created_at'] = str(i['created_at'])
             Items.append(temp_dict)
 
         return Items
