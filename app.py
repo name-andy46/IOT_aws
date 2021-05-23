@@ -41,7 +41,19 @@ def handler(event, context):
                 device_key = body['device_key']
                 old_name = body['old_name']
                 new_name = body['new_name']
-                update_device_name(old_name, new_name, device_key)
+                Item = update_device_name(old_name, new_name, device_key)
+
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(Items, sort_keys=True, indent=4)
+                }
+
+            else:
+                res = 'action not recognized'
+                return {
+                    'statusCode': 404,
+                    'body': json.dumps(res)
+                }
 
 
         else:
