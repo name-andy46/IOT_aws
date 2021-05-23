@@ -23,8 +23,8 @@ def handler(event, context):
             device_action = event['queryStringParameters']['device_action']
             
             if device_action == 'list':
-                Items = device.list_devices()
-                
+                Items = list_devices()
+
                 return {
                     'statusCode': 200,
                     'body': json.dumps(Items, sort_keys=True, indent=4)
