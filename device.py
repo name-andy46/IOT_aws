@@ -62,7 +62,7 @@ def update_device_name(new_name, device_key):
             Key={
                 'device_key': device_key
             },
-            UpdateExpression='SET name = :val1',
+            UpdateExpression='SET device_name = :val1',
             ExpressionAttributeValues={
                 ':val1': new_name
             }

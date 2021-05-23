@@ -46,7 +46,7 @@ def handler(event, context):
                 print('👉 this is the print statement 👈')
                 return {
                     'statusCode': 200,
-                    'body': json.dumps(Items, sort_keys=True, indent=4)
+                    'body': json.dumps(Item, sort_keys=True, indent=4)
                 }
 
             else:
