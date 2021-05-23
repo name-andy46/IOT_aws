@@ -40,7 +40,7 @@ def list_devices():
 
 
 
-def update_device_name(old_name, new_name, device_key):
+def update_device_name(new_name, device_key):
 
     try:
         dynamodb = boto3.resource('dynamodb')

@@ -21,13 +21,14 @@ def handler(event, context):
             
             if device_action == 'list':
                 Items = list_devices()
-
+                print('👉 this is the print statement 👈')
                 return {
                     'statusCode': 200,
                     'body': json.dumps(Items, sort_keys=True, indent=4)
                 }
             else:
                 res = 'action not recognized'
+                print('👉 this is the print statement 👈')
                 return {
                     'statusCode': 404,
                     'body': json.dumps(res)
@@ -39,10 +40,10 @@ def handler(event, context):
             if device_action == 'update':
                 body = json.loads(event['body'])
                 device_key = body['device_key']
-                old_name = body['old_name']
                 new_name = body['new_name']
-                Item = update_device_name(old_name, new_name, device_key)
+                Item = update_device_name(new_name, device_key)
 
+                print('👉 this is the print statement 👈')
                 return {
                     'statusCode': 200,
                     'body': json.dumps(Items, sort_keys=True, indent=4)
@@ -50,6 +51,7 @@ def handler(event, context):
 
             else:
                 res = 'action not recognized'
+                print('👉 this is the print statement 👈')
                 return {
                     'statusCode': 404,
                     'body': json.dumps(res)
@@ -58,7 +60,7 @@ def handler(event, context):
 
         else:
             res = 'httpMethod not recognized!'
-        
+            print('👉 this is the print statement 👈')
         
             return {
                 'statusCode': 200,
@@ -66,6 +68,7 @@ def handler(event, context):
             }
     except Exception as e:
         print(e)
+        print('👉 this is the print statement 👈')
         res = 'there was an error in handling your request'
         return {
             'statusCode': 400,
