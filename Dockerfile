@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.8
 
 # Copy function code
-COPY app.py ${LAMBDA_TASK_ROOT}
+COPY . ${LAMBDA_TASK_ROOT}
 
 # Avoid cache purge by adding requirements first
 COPY requirements.txt ${LAMBDA_TASK_ROOT}

@@ -8,21 +8,28 @@ from utils.jsonDecimals import DecimalEncoder as de
 
 
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('devices')
+# table = dynamodb.Table('devices')
+table = dynamodb.Table('device_list')
+
+
+# response = table.scan(
+#     AttributesToGet=['num_id', 'name']
+# )
 
 
 response = table.scan(
-    AttributesToGet=['num_id', 'name']
+    AttributesToGet=['device_key', 'created_at', 'name',]
 )
+# print(json.dumps(response['Items']))
 
 Items = []
 
 for i in response['Items']:
     temp_dict = {}
 
+    temp_dict['device_key'] = i['device_key']
     temp_dict['name'] = i['name']
-    # temp_dict['num_id'] = Decimal(i['num_id'])
-    temp_dict['num_id'] = de().encode(i['num_id'])
+    temp_dict['created_at'] = de().encode(i['created_at'])
     Items.append(temp_dict)
 
     # print(i)
