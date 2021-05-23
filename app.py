@@ -5,7 +5,9 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 from utils.jsonDecimals import DecimalEncoder as de
-from device import *
+from utils.list_devices import list_devices
+from utils.update_device_name import update_device_name
+from utils.add_device import add_device
 
 
 
@@ -35,10 +37,17 @@ def handler(event, context):
                 }
 
         elif event['httpMethod'] == 'POST':
+            auth_stepOne = event['queryStringParameters']['theWord']
+            if ${{ secrets.THE_WORD }} != auth_stepOne:
+                res = 'Not Allowed!'
+                return {
+                    'statusCode': 401,
+                    'body': json.dumps(res)
+                }
             device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
+            body = json.loads(event['body'])
 
             if device_action == 'update':
-                body = json.loads(event['body'])
                 device_key = body['device_key']
                 new_name = body['new_name']
                 Item = update_device_name(new_name, device_key)
@@ -48,6 +57,21 @@ def handler(event, context):
                     'statusCode': 200,
                     'body': json.dumps(Item, sort_keys=True, indent=4)
                 }
+            
+
+            elif device_action == 'add':
+                device_name = body['device_name']
+                second_word = body['second_word']
+
+                if ${{ secrets.THE_SECOND_WORD }} != second_word:
+                    res = 'Not Allowed!'
+                    return {
+                        'statusCode': 401,
+                        'body': json.dumps(res)
+                    }
+
+                Item = add_device(device_name)
+
 
             else:
                 res = 'action not recognized'

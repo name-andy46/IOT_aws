@@ -6,12 +6,16 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 from utils.jsonDecimals import DecimalEncoder as de
+
 import uuid
 
 
 uuni_id = uuid.uuid4()
 uid_str = uuni_id.hex
 print(uid_str)
+uniquename = 'device_' + uid_str
+print(uniquename)
+print(type(uniquename))
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('devices')
@@ -38,3 +42,5 @@ x = json.dumps(Items)
 
 print(x)
 
+import time
+print(round(time.time()))
