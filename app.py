@@ -38,7 +38,7 @@ def handler(event, context):
 
         elif event['httpMethod'] == 'POST':
             auth_stepOne = event['queryStringParameters']['theWord']
-            if ${{ secrets.THE_WORD }} != auth_stepOne:
+            if auth_stepOne != 'there-is-no-such-word':
                 res = 'Not Allowed!'
                 return {
                     'statusCode': 401,
@@ -63,7 +63,7 @@ def handler(event, context):
                 device_name = body['device_name']
                 second_word = body['second_word']
 
-                if ${{ secrets.THE_SECOND_WORD }} != second_word:
+                if second_word != 'you-are-still-looking-for-the-word':
                     res = 'Not Allowed!'
                     return {
                         'statusCode': 401,
