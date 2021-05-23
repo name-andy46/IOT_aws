@@ -1,6 +1,6 @@
 import json
 import boto3
-from jsonDecimals import DecimalEncoder as de
+import jsonDecimals.DecimalEncoder as de
 
 
 

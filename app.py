@@ -3,7 +3,7 @@ import boto3
 import requests
 import os
 from datetime import datetime
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from utils.jsonDecimals import DecimalEncoder as de
 from utils.list_devices import list_devices
 from utils.update_device_name import update_device_name
