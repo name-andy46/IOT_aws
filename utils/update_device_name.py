@@ -1,7 +1,6 @@
 import json
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
-# from jsonDecimals import DecimalEncoder as de
 
 
 def update_device_name(new_name, device_key):

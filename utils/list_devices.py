@@ -1,6 +1,6 @@
 import json
 import boto3
-import jsonDecimals.DecimalEncoder as de
+import jsonDecimals
 
 
 
@@ -23,7 +23,7 @@ def list_devices():
 
             temp_dict['device_key'] = i['device_key']
             temp_dict['device_name'] = i['device_name']
-            temp_dict['created_at'] = de().encode(i['created_at'])
+            temp_dict['created_at'] = DecimalEncoder().encode(i['created_at'])
             Items.append(temp_dict)
 
         return Items

@@ -5,7 +5,6 @@ from boto3.dynamodb.conditions import Key, Attr
 # import os
 import time
 # from dotenv import load_dotenv
-# from jsonDecimals import DecimalEncoder as de
 import uuid
 
 
