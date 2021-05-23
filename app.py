@@ -10,17 +10,14 @@ from device import *
 
 
 dynamodb = boto3.resource('dynamodb')
-# table = dynamodb.Table('devices')
 table = dynamodb.Table('device_list')
-
-
 
 
 def handler(event, context):
 
     try:
         if event['httpMethod'] == 'GET':
-            device_action = event['queryStringParameters']['device_action']
+            device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
             
             if device_action == 'list':
                 Items = list_devices()
@@ -35,6 +32,16 @@ def handler(event, context):
                     'statusCode': 404,
                     'body': json.dumps(res)
                 }
+
+        elif event['httpMethod'] == 'POST':
+            device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
+
+            if device_action == 'update':
+                body = json.loads(event['body'])
+                device_key = body['device_key']
+                old_name = body['old_name']
+                new_name = body['new_name']
+                update_device_name(old_name, new_name, device_key)
 
 
         else:

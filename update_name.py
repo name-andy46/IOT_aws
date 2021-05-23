@@ -27,23 +27,23 @@ print(table_list_res['Item'])
 
 
 
-# device_to_be_updated.update_item(
-#     Key={
-#         'log_id': 'device_info'
-#     },
-#     UpdateExpression='SET device_name = :val1',
-#     ExpressionAttributeValues={
-#         ':val1': 'updated device name'
-#     }
-# )
+device_to_be_updated.update_item(
+    Key={
+        'log_id': 'device_info'
+    },
+    UpdateExpression='SET device_name = :val1',
+    ExpressionAttributeValues={
+        ':val1': 'updated device name'
+    }
+)
 
 
 
-# updated_response = table.get_item(
-#     Key = {
-#         'log_id': 'device_info',
-#     }    
-# )
-# print(updated_response['Item'])
+updated_response = table.get_item(
+    Key = {
+        'log_id': 'device_info',
+    }    
+)
+print(updated_response['Item'])
 
 # ge5g4g54g65h76j88776hh56
