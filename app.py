@@ -7,7 +7,7 @@ from datetime import datetime
 # from utils.jsonDecimals import DecimalEncoder as de
 from utils.list_devices import list_devices
 from utils.update_device_name import update_device_name
-from utils.add_device import add_device
+from utils.add_device import add_device, handleDBevent
 
 
 
@@ -18,7 +18,12 @@ table = dynamodb.Table('device_list')
 def handler(event, context):
 
     try:
-        if event['httpMethod'] == 'GET':
+        if event['Records']:
+
+            event_record = event['Records'][0]
+            handleDBevent(event_record)
+
+        elif event['httpMethod'] == 'GET':
             device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
             
             if device_action == 'list':
@@ -37,13 +42,16 @@ def handler(event, context):
                 }
 
         elif event['httpMethod'] == 'POST':
+
             auth_stepOne = event['queryStringParameters']['theWord']
+
             if auth_stepOne != 'there-is-no-such-word':
                 res = 'Not Allowed!'
                 return {
                     'statusCode': 401,
                     'body': json.dumps(res)
                 }
+
             device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
             body = json.loads(event['body'])
 
@@ -53,6 +61,7 @@ def handler(event, context):
                 Item = update_device_name(new_name, device_key)
 
                 print('👉 update name success block 👈')
+
                 return {
                     'statusCode': 200,
                     'body': json.dumps(Item, sort_keys=True, indent=4)
@@ -60,6 +69,7 @@ def handler(event, context):
             
 
             elif device_action == 'add':
+
                 device_name = body['device_name']
                 second_word = body['second_word']
 
@@ -70,15 +80,26 @@ def handler(event, context):
                         'body': json.dumps(res)
                     }
 
-                Item = add_device(device_name)
+                add_device_response = add_device(device_name)
 
-                return {
+                if add_device_response == 'success':
+                    res = 'added device successfully'
+                    return {
                     'statusCode': 200,
-                    'body': json.dumps(Item)
-                }
+                    'body': json.dumps(res)
+                    }
+
+                else:
+
+                    res = 'there was an error in adding a new device'
+                    return {
+                    'statusCode': 400,
+                    'body': json.dumps(res)
+                    }
 
 
             else:
+
                 res = 'action not recognized'
                 print('👉 update name not recognized 👈')
                 return {
@@ -88,6 +109,7 @@ def handler(event, context):
 
 
         else:
+
             res = 'httpMethod not recognized!'
             print('👉 http method not recognized 👈')
         
@@ -95,6 +117,8 @@ def handler(event, context):
                 'statusCode': 200,
                 'body': json.dumps(res)
             }
+
+
     except Exception as e:
         print(e)
         print('❌ complete failure ❌')
