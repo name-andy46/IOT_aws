@@ -27,7 +27,7 @@ def log_data(device_key):
             }    
         )
 
-        current_count = get_count['Item']['count']
+        current_count = str(get_count['Item']['count'])
         
         temperature = round(Decimal(random.uniform(-20, 50)), 2)
         pressure = round(Decimal(random.uniform(930, 1050)), 2)
@@ -43,7 +43,7 @@ def log_data(device_key):
             ConditionExpression='attribute_not_exists(log_id)',
         )
 
-        updated_count = current_count + 1
+        updated_count = int(current_count) + 1
         
         update_count = device_table.put_item(
             Item = {
