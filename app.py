@@ -16,6 +16,8 @@ table = dynamodb.Table('device_list')
 
 
 def handler(event, context):
+    
+    print(event)
 
     try:
         if event['Records']:
