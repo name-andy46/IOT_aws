@@ -8,6 +8,7 @@ from datetime import datetime
 from utils.list_devices import list_devices
 from utils.update_device_name import update_device_name
 from utils.add_device import add_device, handleDBevent
+from utils.logging import log_data
 
 
 
@@ -49,19 +50,34 @@ def handler(event, context):
 
             auth_stepOne = event['queryStringParameters']['theWord']
 
-            if auth_stepOne != 'there-is-no-such-word':
+            if auth_stepOne != os.environ['authStepOne']:
                 res = 'Not Allowed!'
                 return {
                     'statusCode': 401,
                     'body': json.dumps(res)
                 }
 
-            device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
+            
             body = json.loads(event['body'])
 
+            auth_stepTwo = body['second_word']
+
+            if auth_stepTwo != os.environ['authStepTwo']:
+
+                res = 'Not Allowed!'
+
+                return {
+                    'statusCode': 401,
+                    'body': json.dumps(res)
+                }
+
+            device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
+
             if device_action == 'update':
+
                 device_key = body['device_key']
                 new_name = body['new_name']
+
                 Item = update_device_name(new_name, device_key)
 
                 print('👉 update name success block 👈')
@@ -75,21 +91,26 @@ def handler(event, context):
             elif device_action == 'add':
 
                 device_name = body['device_name']
-                second_word = body['second_word']
-
-                if second_word != 'you-are-still-looking-for-the-word':
-                    res = 'Not Allowed!'
-                    return {
-                        'statusCode': 401,
-                        'body': json.dumps(res)
-                    }
-
+                
                 add_device_response = add_device(device_name)
 
                 return {
                     'statusCode': 200,
                     'body': json.dumps(add_device_response)
                     }
+
+
+
+            elif device_action == 'log':
+
+                device_key = body['device_key']
+
+                log_result = log_data(device_key)
+
+                return {
+                    'statusCode': log_result['statusCode'],
+                    'body': json.dumps(log_result['body'])
+                }
 
 
             else:

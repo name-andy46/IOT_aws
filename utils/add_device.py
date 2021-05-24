@@ -100,6 +100,13 @@ def handleDBevent(event_record):
                 }
             )
 
+            counter_response = new_device_table.put_item(
+                Item = {
+                    'log_id': 'counter',
+                    'count': 1
+                }
+            )
+
 
             print(table.item_count)
             res = 'success'
