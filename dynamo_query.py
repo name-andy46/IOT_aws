@@ -7,15 +7,12 @@ from datetime import datetime
 from dotenv import load_dotenv
 from utils.jsonDecimals import DecimalEncoder as de
 
-import uuid
+# import uuid
 
 
-uuni_id = uuid.uuid4()
-uid_str = uuni_id.hex
-print(uid_str)
-uniquename = 'device_' + uid_str
-print(uniquename)
-print(type(uniquename))
+# uuni_id = uuid.uuid4()
+# uid_str = uuni_id.hex
+# uniquename = 'device_' + uid_str
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('devices')
@@ -34,7 +31,7 @@ for i in response['Items']:
 
     temp_dict['name'] = i['name']
     # temp_dict['num_id'] = Decimal(i['num_id'])
-    temp_dict['num_id'] = de().encode(i['num_id'])
+    temp_dict['num_id'] = str(i['num_id'])
     Items.append(temp_dict)
 
 # x = json.dumps(Items, sort_keys=True, indent=4)
