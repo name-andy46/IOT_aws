@@ -11,17 +11,21 @@ from utils.add_device import add_device, handleDBevent
 
 
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('device_list')
-
-
 def handler(event, context):
     
     try:
         if 'Records' in event:
 
             event_record = event['Records'][0]
-            handleDBevent(event_record)
+            res = handleDBevent(event_record)
+
+            if res == 'error':
+                print('could not create table')
+                return
+
+            if res == 'success':
+                print('successfully created table')
+                return
 
         elif event['httpMethod'] == 'GET':
             device_action = event['queryStringParameters']['device_action'] if event['queryStringParameters']['device_action'] else None
@@ -130,49 +134,5 @@ def handler(event, context):
         }
         
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# dynamodb = boto3.resource('dynamodb')
-# table = dynamodb.Table('device_list')
-
-# def handler(event, context):
-    
-#     response = table.scan(
-#         AttributesToGet=['device_key', 'created_at', 'name',]
-#     )
-
-    
-#     Items = []
-
-#     for i in response['Items']:
-#         temp_dict = {}
-
-#         temp_dict['device_key'] = i['device_key']
-#         temp_dict['name'] = i['name']
-#         temp_dict['created_at'] = de().encode(i['created_at'])
-#         Items.append(temp_dict)
-    
-    
-#     return {
-#         'statusCode': 200,
-#         'body': json.dumps(Items, sort_keys=True, indent=4)
-#     }
 
 

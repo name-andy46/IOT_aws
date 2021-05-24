@@ -48,6 +48,7 @@ def handleDBevent(event_record):
     try:
         if event_record['eventName'] == 'INSERT':
 
+            table_name = event_record['dynamodb']['Keys']['device_key']['S']
             attribute_name = 'log_id'
             key_type = 'HASH'
             attribute_type = 'S'
@@ -80,12 +81,14 @@ def handleDBevent(event_record):
             table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
 
             print(table.item_count)
+            res = 'success'
 
-            return
+            return res
 
     except Exception as e:
         print(e)
-        return
+        res = 'error'
+        return res
 
 
 
