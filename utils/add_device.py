@@ -31,7 +31,7 @@ def add_device(device_name):
             }
         )
 
-        res = 'success'
+        res = 'success(it can take upto 60 sec to create a device)'
         return res
 
     except Exception as e:
@@ -49,6 +49,7 @@ def handleDBevent(event_record):
         if event_record['eventName'] == 'INSERT':
 
             table_name = event_record['dynamodb']['Keys']['device_key']['S']
+            device_name = event_record['dynamodb']['NewImage']['device_name']['S']
             attribute_name = 'log_id'
             key_type = 'HASH'
             attribute_type = 'S'
@@ -79,6 +80,22 @@ def handleDBevent(event_record):
 
             # Wait until the table exists.
             table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+
+            
+            temperature_id = 'temperature_' + uuid.uuid4().hex
+            pressure_id = 'pressure_' + uuid.uuid4().hex
+
+            new_device_table = dynamodb.Table(table_name)
+
+            response = new_device_table.put_item(
+                Item = {
+                    'log_id': 'device_info',
+                    'device_name': device_name,
+                    'pressure_sensor_id': temperature_id,
+                    'temperature_sensor_id': pressure_id,
+                }
+            )
+
 
             print(table.item_count)
             res = 'success'
@@ -156,20 +173,20 @@ def handleDBevent(event_record):
 #             }
 #         )        
 
-#         temperature_id = 'temperature_' + uuid.uuid4().hex
-#         pressure_id = 'pressure_' + uuid.uuid4().hex
+        # temperature_id = 'temperature_' + uuid.uuid4().hex
+        # pressure_id = 'pressure_' + uuid.uuid4().hex
 
-#         new_device_table = dynamodb.Table(table_name)
+        # new_device_table = dynamodb.Table(table_name)
 
-#         response = new_device_table.put_item(
-#             Item = {
-#                 'log_id': 'device_info',
-#                 'device_key': device_name,
-#                 'pressure_sensor_id': temperature_id,
-#                 'temperature_sensor_id': pressure_id,
-#             },
-#             ConditionExpression='attribute_not_exists(id)',
-#         )
+        # response = new_device_table.put_item(
+        #     Item = {
+        #         'log_id': 'device_info',
+        #         'device_key': device_name,
+        #         'pressure_sensor_id': temperature_id,
+        #         'temperature_sensor_id': pressure_id,
+        #     },
+        #     ConditionExpression='attribute_not_exists(id)',
+        # )
 
 
 #         # Print out some data about the table.
