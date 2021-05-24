@@ -86,19 +86,9 @@ def handler(event, context):
 
                 add_device_response = add_device(device_name)
 
-                if add_device_response == 'success':
-                    res = 'added device successfully'
-                    return {
+                return {
                     'statusCode': 200,
-                    'body': json.dumps(res)
-                    }
-
-                else:
-
-                    res = 'there was an error in adding a new device'
-                    return {
-                    'statusCode': 400,
-                    'body': json.dumps(res)
+                    'body': json.dumps(add_device_response)
                     }
 
 

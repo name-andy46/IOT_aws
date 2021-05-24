@@ -36,7 +36,7 @@ def add_device(device_name):
 
     except Exception as e:
         print(e)
-        res = 'error'
+        res = 'error in adding new device'
 
         return res
 
