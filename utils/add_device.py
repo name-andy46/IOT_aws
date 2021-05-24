@@ -30,7 +30,7 @@ def add_device(device_name):
                 'device_name': device_name
             }
         )
-
+        print(table_list_res)
         res = 'success(it can take upto 60 sec to create a device)'
         return res
 
@@ -86,9 +86,12 @@ def handleDBevent(event_record):
             temperature_id = 'temperature_' + uuid.uuid4().hex
             pressure_id = 'pressure_' + uuid.uuid4().hex
 
-            new_device_table = dynamodb.Table(table_name)
+            print(temperature_id)
+            print(pressure_id)
 
-            response = new_device_table.put_item(
+            # new_device_table = dynamodb.Table(table_name)
+
+            response = table_name.put_item(
                 Item = {
                     'log_id': 'device_info',
                     'device_name': device_name,
