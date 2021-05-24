@@ -1,10 +1,7 @@
 import json
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
-# import requests
-# import os
 import time
-# from dotenv import load_dotenv
 import uuid
 import random
 from decimal import Decimal
