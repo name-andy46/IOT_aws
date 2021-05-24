@@ -81,6 +81,7 @@ def handleDBevent(event_record):
             # Wait until the table exists.
             table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
 
+            time.sleep(2)
             
             temperature_id = 'temperature_' + uuid.uuid4().hex
             pressure_id = 'pressure_' + uuid.uuid4().hex
@@ -91,8 +92,8 @@ def handleDBevent(event_record):
                 Item = {
                     'log_id': 'device_info',
                     'device_name': device_name,
-                    'pressure_sensor_id': temperature_id,
-                    'temperature_sensor_id': pressure_id,
+                    'pressure_sensor_id': pressure_id,
+                    'temperature_sensor_id': temperature_id,
                 }
             )
 
