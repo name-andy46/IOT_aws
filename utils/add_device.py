@@ -91,7 +91,7 @@ def handleDBevent(event_record):
 
             # new_device_table = dynamodb.Table(table_name)
 
-            response = table_name.put_item(
+            response = table.put_item(
                 Item = {
                     'log_id': 'device_info',
                     'device_name': device_name,
