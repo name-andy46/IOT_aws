@@ -89,8 +89,6 @@ def handleDBevent(event_record):
             print(temperature_id)
             print(pressure_id)
 
-            # new_device_table = dynamodb.Table(table_name)
-
             response = table.put_item(
                 Item = {
                     'log_id': 'device_info',
@@ -100,7 +98,7 @@ def handleDBevent(event_record):
                 }
             )
 
-            counter_response = new_device_table.put_item(
+            counter_response = table.put_item(
                 Item = {
                     'log_id': 'counter',
                     'count': 1
